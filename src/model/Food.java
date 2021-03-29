@@ -5,6 +5,10 @@ public abstract class Food extends Product{
     protected boolean specialEdition;
     protected String brand;
 
+    public Food() {
+
+    }
+
     public Food(long id, String name, double price, int stock,
                 long barcode, boolean specialEdition, String brand){
         super(id, name, price, stock);

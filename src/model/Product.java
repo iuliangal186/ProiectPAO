@@ -6,6 +6,10 @@ public abstract class Product {
     protected double price;
     protected int stock;
 
+    public Product(){
+
+    }
+
     public Product(long id, String name, double price, int stock)
     {
         this.id = id;
@@ -48,5 +52,6 @@ public abstract class Product {
 
     @Override
     public String toString() {return id + " / " + name + " / " + price + " / " + stock; }
+
 
 }

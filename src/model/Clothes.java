@@ -31,4 +31,6 @@ public class Clothes extends Product{
     public String toString(){
         return super.toString() + " / " + brand + " / " + season;
     }
+
+
 }
