@@ -17,4 +17,9 @@ public class Fruit extends Food{
     public void setRipe(boolean ripe) {
         this.ripe = ripe;
     }
+
+    @Override
+    public String toString(){
+        return super.toString() + " / " + ripe;
+    }
 }

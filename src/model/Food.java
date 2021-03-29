@@ -36,4 +36,9 @@ public abstract class Food extends Product{
     public void setBrand(String brand) {
         this.brand = brand;
     }
+
+    @Override
+    public String toString(){
+        return super.toString() + " / " + barcode + " / " + specialEdition + " / " + brand;
+    }
 }

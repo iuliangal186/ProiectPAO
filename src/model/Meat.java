@@ -27,4 +27,9 @@ public class Meat extends Food {
     public void setWeight(double weight) {
         this.weight = weight;
     }
+
+    @Override
+    public String toString(){
+        return super.toString() + " / " + daysToExpiration + " / " + weight;
+    }
 }

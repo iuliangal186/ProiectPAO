@@ -1,25 +1,25 @@
 package model;
 
-public class Category {
-    private int idCategory;
-    private String nameCategory;
+public class Shop {
+    private int idShop;
+    private String nameShop;
     private int numberOfShelves;
     private Product[] products = new Product[100];
 
-    public int getIdCategory() {
-        return idCategory;
+    public int getIdShop() {
+        return idShop;
     }
 
-    public void setIdCategory(int idCategory) {
-        this.idCategory = idCategory;
+    public void setIdShop(int idShop) {
+        this.idShop = idShop;
     }
 
-    public String getNameCategory() {
-        return nameCategory;
+    public String getNameShop() {
+        return nameShop;
     }
 
-    public void setNameCategory(String nameCategory) {
-        this.nameCategory = nameCategory;
+    public void setNameShop(String nameShop) {
+        this.nameShop = nameShop;
     }
 
     public int getNumberOfShelves() {

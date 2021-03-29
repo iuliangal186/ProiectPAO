@@ -27,4 +27,9 @@ public class Milk extends Food{
     public void setVolume(double volume) {
         this.volume = volume;
     }
+
+    @Override
+    public String toString(){
+        return super.toString() + " / " + daysToExpiration + " / " + volume;
+    }
 }

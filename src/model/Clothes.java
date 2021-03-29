@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Clothes extends Product{
+public class Clothes extends Product{
     protected String brand;
     protected String season;
 
@@ -25,5 +25,10 @@ public abstract class Clothes extends Product{
 
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    @Override
+    public String toString(){
+        return super.toString() + " / " + brand + " / " + season;
     }
 }
