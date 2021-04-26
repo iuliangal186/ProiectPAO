@@ -1,0 +1,18 @@
+exit, 2021/04/26 19:37:06
+added clothes, 2021/04/26 19:37:33
+add, 2021/04/26 19:37:33
+delete product, 2021/04/26 19:37:53
+view all fruits, 2021/04/26 19:38:02
+view fruits name, 2021/04/26 19:38:15
+view products, 2021/04/26 19:38:22
+update -> winter discount, 2021/04/26 19:48:16
+view products, 2021/04/26 19:48:24
+update -> discount all, 2021/04/26 19:48:56
+view products, 2021/04/26 19:49:00
+exit, 2021/04/26 19:49:22
+Write'exit' command at 2021/04/26 19:51:02
+Write 'exit' command at 2021/04/26 19:51:15
+Write 'view summer clothes' command at 2021/04/26 19:51:58
+Write 'view all fruits' command at 2021/04/26 19:52:06
+Write 'view fruits name' command at 2021/04/26 19:52:19
+Write 'exit' command at 2021/04/26 19:52:21

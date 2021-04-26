@@ -3,12 +3,22 @@ package main;
 import model.*;
 import service.*;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Application {
     public static void main(String[] args) {
         Shop shop = new Shop();
+        ProductService productService = new ProductService();
         ShopService shopService = new ShopService();
+        FilesService filesService = new FilesService();
+        ReadService readService = new ReadService();
+        readService.readProduct(shop, "csv-files/clothes.txt");
+        readService.readProduct(shop, "csv-files/phone.txt");
+        readService.readProduct(shop, "csv-files/milk.txt");
+        readService.readProduct(shop, "csv-files/meat.txt");
+        readService.readProduct(shop, "csv-files/fruit.txt");
+        AuditService auditService = new AuditService();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -17,43 +27,10 @@ public class Application {
             String line = scanner.nextLine();
             switch (line){
                 case "add": {
-                    System.out.println("Please choose a product type: (clothes/phone/food)");
-                    String productType = scanner.nextLine();
-                    switch (productType) {
-                        case "clothes": {
-                            System.out.println("Please specify name/price/stock/brand/season");
-                            shopService.addProduct(shop, buildClothes(scanner.nextLine()));
-                            break;
-                        }
-                        case "phone": {
-                            System.out.println("Please specify name/price/stock/screen/brand/typebattery/capacitybattery/voltagebattery");
-                            shopService.addProduct(shop, buildPhone(scanner.nextLine()));
-                            break;
-                        }
-                        case "food": {
-                            System.out.println("Please choose a food type: (fruit/milk/meat)");
-                            String foodType = scanner.nextLine();
-                            switch (foodType) {
-                                case "milk": {
-                                    System.out.println("Please specify name/price/stock/barccode/special_edition/brand/days to expiration/volume");
-                                    shopService.addProduct(shop, buildMilk(scanner.nextLine()));
-                                    break;
-                                }
-                                case "fruit": {
-                                    System.out.println("Please specify name/price/stock/barccode/special_edition/brand/ripe");
-                                    shopService.addProduct(shop, buildFruit(scanner.nextLine()));
-                                    break;
-                                }
-                                case "meat": {
-                                    System.out.println("Please specify name/price/stock/barccode/special_edition/brand/days to expiration/weight");
-                                    shopService.addProduct(shop, buildMeat(scanner.nextLine()));
-                                    break;
-                                }
-
-                            }
-                        }
-                    }
-                break;
+                    addProduct(shop, productService, shopService, scanner);
+                    String message = "add";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
+                    break;
                 }
                 case "view": {
                     System.out.println("What do you want to view: ");
@@ -64,22 +41,30 @@ public class Application {
 
                     String input = scanner.nextLine();
                     switch (input) {
-                        case "products":
+                        case "products": {
                             shopService.printProductDetails(shop);
+                            String message = "view products";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
                             break;
-
-                        case "fruitname":
+                        }
+                        case "fruitname": {
                             System.out.println("Give the fruit name: ");
                             String name = scanner.nextLine();
                             shopService.printFruitWithTheSameName(shop, name);
+                            String message = "view fruits name";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
                             break;
-
-                        case "fruitslist":
+                        }
+                        case "fruitslist": {
                             shopService.printFruitsList(shop);
+                            String message = "view all fruits";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
                             break;
-
+                        }
                         case "summerclothes":
                             shopService.printSummerClothes(shop);
+                            String message = "view summer clothes";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
                             break;
 
                         default: {
@@ -96,23 +81,30 @@ public class Application {
 
                     String input = scanner.nextLine();
                     switch (input){
-                        case "discountall":
+                        case "discountall": {
                             System.out.println("Write discount between 0-1");
                             double discount = Double.valueOf(scanner.nextLine());
                             shopService.updateDiscountAll(shop, discount);
+                            String message = "update -> discount all";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
                             break;
-
-                        case "winterdiscount":
+                        }
+                        case "winterdiscount": {
                             System.out.println("Write discount between 0-1");
                             double discount1 = Double.valueOf(scanner.nextLine());
                             shopService.updateWinterDiscount(shop, discount1);
+                            String message = "update -> winter discount";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
                             break;
-
-                        case "expirationdiscount":
+                        }
+                        case "expirationdiscount": {
                             System.out.println("Write discount between 0-1");
                             double discount2 = Double.valueOf(scanner.nextLine());
                             shopService.updateExpirationDiscount(shop, discount2);
+                            String message = "update -> expiration discount";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
                             break;
+                        }
 
                         default:
                             System.out.println("Invalid command");
@@ -123,11 +115,66 @@ public class Application {
                     System.out.println("Which element do you want to remove? ");
                     int number = Integer.valueOf(scanner.nextLine());
                     shopService.deleteProduct(shop, number);
+                    String message = "delete product";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
                     break;
                 }
                 case "exit": {
+                    String message = "exit";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
                     System.out.println("Done");
                     System.exit(0);
+                    break;
+                }
+
+                case "create folder" : {
+                    String message = "create folder";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
+                    System.out.println("Please give the folder name ");
+                    String folderName = scanner.nextLine();
+                    try {
+                        filesService.createFolder(folderName);
+                    } catch (IOException e) {
+                        System.out.println("Cannot create folder with name " + folderName);
+                    }
+                    break;
+                }
+                case "create file" : {
+                    String message = "create file";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
+                    System.out.println("Please give the file name ");
+                    String fileName = scanner.nextLine();
+                    try {
+                        filesService.createFile(fileName);
+                    } catch (IOException e) {
+                        System.out.println("Cannot create file with name" + fileName);
+                    }
+                    break;
+                }
+
+                case "delete file" : {
+                    String message = "delete file";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
+                    System.out.println("Please give the file name to be deleted");
+                    String fileName = scanner.nextLine();
+                    try {
+                        filesService.deleteFile(fileName);
+                    } catch (IOException e) {
+                        System.out.println("Cannot delete file with name" + fileName);
+                    }
+                    break;
+                }
+
+                case "list" : {
+                    String message = "list files from folder";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
+                    System.out.println("Please give the folder name to list the files: ");
+                    String folderName = scanner.nextLine();
+                    try {
+                        filesService.listFolder(folderName);
+                    } catch (IOException e) {
+                        System.out.println("Cannot list files from folder" + folderName);
+                    }
                     break;
                 }
                 default: {
@@ -136,65 +183,98 @@ public class Application {
             }
         }
     }
-    public static Product buildClothes(String productDetails){
-        String[] attr = productDetails.split("/");
-        String name = attr[0];
-        float price = Float.valueOf(attr[1]);
-        int stock = Integer.valueOf(attr[2]);
-        String brand = attr[3];
-        String season = attr[4];
-        return new Clothes(new Random().nextInt(100), name, price, stock, brand, season);
-    }
 
-    public static Product buildPhone(String productDetails){
-        String[] attr = productDetails.split("/");
-        String name = attr[0];
-        float price = Float.valueOf(attr[1]);
-        int stock = Integer.valueOf(attr[2]);
-        float screen = Float.valueOf(attr[3]);
-        String brand = attr[4];
-        String typebattery = attr[5];
-        int capacitybattery = Integer.valueOf(attr[6]);
-        int voltagebattery = Integer.valueOf(attr[7]);
-        return new Phone(new Random().nextInt(100), name, price, stock, screen, brand,
-                new Battery(typebattery, capacitybattery, voltagebattery));
+    private static void addProduct(Shop shop, ProductService productService, ShopService shopService, Scanner scanner) {
+        AuditService auditService = new AuditService();
+        WriteService writeService = new WriteService();
+        System.out.println("Please choose a product type: clothes/phone/food");
+        String productType = scanner.nextLine();
+        switch (productType) {
+            case "clothes" :{
+                System.out.println("Please specify name/price/stock/brand/season");
+                try {
+                    Product product = productService.buildClothes(scanner.nextLine());
+                    shopService.addProduct(shop, product);
+                    writeService.writeProduct(product, "csv-files/clothes.txt");
+                    String message = "added clothes";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
+                } catch (NumberFormatException e){
+                    System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Not enough inputs for this product");
+                }
+                break;
+            }
 
-    }
-    public static Product buildMilk(String productDetails){
-        String attr[] = productDetails.split("/");
-        String name = attr[0];
-        float price = Float.valueOf(attr[1]);
-        int stock = Integer.valueOf(attr[2]);
-        long barcode = Long.valueOf(attr[3]);
-        boolean specialEdition = Boolean.valueOf(attr[4]);
-        String brand = attr[5];
-        int daysToExpiration = Integer.valueOf(attr[6]);
-        double volume = Double.valueOf(attr[7]);
-        return new Milk(new Random().nextInt(100), name, price, stock, barcode, specialEdition, brand,
-                daysToExpiration, volume);
-    }
-    public static Product buildFruit(String productDetails){
-        String attr[] = productDetails.split("/");
-        String name = attr[0];
-        float price = Float.valueOf(attr[1]);
-        int stock = Integer.valueOf(attr[2]);
-        long barcode = Long.valueOf(attr[3]);
-        boolean specialEdition = Boolean.valueOf(attr[4]);
-        String brand = attr[5];
-        boolean ripe = Boolean.valueOf(attr[6]);
-        return new Fruit(new Random().nextInt(100), name, price, stock, barcode, specialEdition, brand, ripe);
-    }
-    public static Product buildMeat(String productDetails){
-        String attr[] = productDetails.split("/");
-        String name = attr[0];
-        float price = Float.valueOf(attr[1]);
-        int stock = Integer.valueOf(attr[2]);
-        long barcode = Long.valueOf(attr[3]);
-        boolean specialEdition = Boolean.valueOf(attr[4]);
-        String brand = attr[5];
-        int daysToExpiration = Integer.valueOf(attr[6]);
-        double weigth = Double.valueOf(attr[7]);
-        return new Meat(new Random().nextInt(100), name, price, stock, barcode, specialEdition, brand, daysToExpiration, weigth);
+            case "phone" : {
+                System.out.println("Please specify name/price/stock/screen/brand/typebattery/capacitybattery/voltagebattery");
+                try {
+                    Product product = productService.buildPhone(scanner.nextLine());
+                    shopService.addProduct(shop, product);
+                    writeService.writeProduct(product, "csv-files/phone.txt");
+                    String message = "added phone";
+                    auditService.writeAction(new Action(message), "audit/audit.txt");
+                } catch (NumberFormatException e){
+                    System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Not enough inputs for this product");
+                }
+                break;
+            }
+            case "food": {
+                System.out.println("Please choose a food type: (fruit/milk/meat)");
+                String foodType = scanner.nextLine();
+                switch (foodType) {
+                    case "milk": {
+                        System.out.println("Please specify name/price/stock/barccode/special_edition/brand/days to expiration/volume");
+                        try {
+                            Product product = productService.buildMilk(scanner.nextLine());
+                            shopService.addProduct(shop, product);
+                            writeService.writeProduct(product, "csv-files/milk.txt");
+                            String message = "added milk";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
+                        } catch (NumberFormatException e){
+                            System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            System.out.println("Not enough inputs for this product");
+                        }
+                        break;
+                    }
+                    case "fruit": {
+                        System.out.println("Please specify name/price/stock/barccode/special_edition/brand/ripe");
+                        try {
+                            Product product = productService.buildFruit(scanner.nextLine());
+                            shopService.addProduct(shop, product);
+                            writeService.writeProduct(product, "csv-files/fruit.txt");
+                            String message = "added fruit";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
+                        } catch (NumberFormatException e){
+                            System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            System.out.println("Not enough inputs for this product");
+                        }
+                        break;
+                    }
+                    case "meat": {
+                        System.out.println("Please specify name/price/stock/barccode/special_edition/brand/days to expiration/weight");
+                        try {
+                            Product product = productService.buildMeat(scanner.nextLine());
+                            shopService.addProduct(shop, product);
+                            writeService.writeProduct(product, "csv-files/meat.txt");
+                            String message = "added meat";
+                            auditService.writeAction(new Action(message), "audit/audit.txt");
+                        } catch (NumberFormatException e){
+                            System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            System.out.println("Not enough inputs for this product");
+                        }
+                        break;
+                    }
+
+                }
+            }
+
+        }
     }
 
 }

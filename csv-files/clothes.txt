@@ -1,0 +1,3 @@
+55,shirt,100.0,2,BOSS,summer
+59,hat,10.0,2,TOMMY,summer
+74,hat,2.0,23,hm,winter

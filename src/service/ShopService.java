@@ -18,8 +18,7 @@ public class ShopService {
 
     public void addProduct(Shop shop, Product product)
     {
-        int Index = getNumberOfProducts(shop);
-        shop.getProducts()[Index] = product;
+        shop.getProducts().add(product);
     }
 
     public void printProductDetails(Shop shop){
@@ -39,9 +38,7 @@ public class ShopService {
     {
         for(Product p : shop.getProducts()){
             if (p != null){
-                Fruit p1 = new Fruit();
-                p1.setName(name);
-                if(p1.equals(p)){
+                if(p.getName().equals(name)){
                     System.out.println(p);
                 }
             }
@@ -88,65 +85,58 @@ public class ShopService {
     }
     public void updateDiscountAll(Shop shop, double discount){
 
-        for (int i = 0; i < shop.getProducts().length; i++){
-            Product p = shop.getProducts()[i];
+        for (int i = 0; i < shop.getProducts().size(); i++){
+            Product p = shop.getProducts().get(i);
             if(p != null) {
-                double x = p.getPrice();
-                x = x - x * discount;
-                p.setPrice(x);
-                shop.getProducts()[i] = p;
+                double copy = p.getPrice();
+                copy = copy - copy * discount;
+                p.setPrice(copy);
+                shop.getProducts().set(i, p);
             }
         }
     }
 
     public void updateWinterDiscount(Shop shop, double discount){
-        for(int i = 0; i < shop.getProducts().length; i++){
-            Product p = shop.getProducts()[i];
+        for(int i = 0; i < shop.getProducts().size(); i++){
+            Product p = shop.getProducts().get(i);
             if(p != null && p instanceof Clothes){
                 String season = ((Clothes) p).getSeason();
-                if(season.equals("winter"))
+                if("winter".equals(season))
                 {
-                    double x = p.getPrice();
-                    x = x - x * discount;
-                    p.setPrice(x);
-                    shop.getProducts()[i] = p;
+                    double copy = p.getPrice();
+                    copy = copy - copy * discount;
+                    p.setPrice(copy);
+                    shop.getProducts().set(i, p);
                 }
             }
         }
     }
     public void updateExpirationDiscount(Shop shop, double discount) {
-        for (int i = 0; i < shop.getProducts().length; i++) {
-            Product p = shop.getProducts()[i];
+        for (int i = 0; i < shop.getProducts().size(); i++) {
+            Product p = shop.getProducts().get(i);
             if (p != null && p instanceof Milk) {
                 int days = ((Milk) p).getDaysToExpiration();
                 if (days < 5) {
                     double x = p.getPrice();
                     x = x - x * discount;
                     p.setPrice(x);
-                    shop.getProducts()[i] = p;
+                    shop.getProducts().set(i, p);
                 }
             }
             if (p != null && p instanceof Meat) {
                 int days = ((Meat) p).getDaysToExpiration();
                 if (days < 5) {
-                    double x = p.getPrice();
-                    x = x - x * discount;
-                    p.setPrice(x);
-                    shop.getProducts()[i] = p;
+                    double copy = p.getPrice();
+                    copy = copy - copy * discount;
+                    p.setPrice(copy);
+                    shop.getProducts().set(i, p);
                 }
             }
         }
     }
     public void deleteProduct(Shop shop, int pos){
-        int size = shop.getProducts().length;
-        if(size - 1 < pos)
-            System.out.println("We don't have a product indexed with " + pos);
-        else {
-            for (int i = pos; i < size - 1; i++) {
-                shop.getProducts()[i] = shop.getProducts()[i + 1];
-            }
-            shop.getProducts()[size - 1] = null;
-        }
+        int size = shop.getProducts().size();
+        shop.getProducts().remove(pos);
     }
 
 }

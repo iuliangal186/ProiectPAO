@@ -1,10 +1,12 @@
 package model;
 
+import java.util.*;
+
 public class Shop {
     private int idShop;
     private String nameShop;
     private int numberOfShelves;
-    private Product[] products = new Product[100];
+    private List<Product> products = new ArrayList<>();
 
     public int getIdShop() {
         return idShop;
@@ -30,11 +32,11 @@ public class Shop {
         this.numberOfShelves = numberOfShelves;
     }
 
-    public Product[] getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Product[] products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 }
