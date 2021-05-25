@@ -1,1 +1,5 @@
 39,dorna,2.0,42,432432,true,Dorna,12,2.0
+99,lapte,2.0,2,22222,true,Drona,2,2.0
+29,lapte,12.0,2,432432,false,Dorna,12,2.0
+79,lapte,10.0,2,4324,false,Dorna,12,2.0
+90,test,100.0,0,100,true,test,2,2.0

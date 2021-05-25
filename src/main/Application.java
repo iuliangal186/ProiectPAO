@@ -13,6 +13,10 @@ public class Application {
         ShopService shopService = new ShopService();
         FilesService filesService = new FilesService();
         ReadService readService = new ReadService();
+        ClothesService clothesService = new ClothesService();
+        MilkService milkService = new MilkService();
+        FruitService fruitService = new FruitService();
+        MeatService meatService = new MeatService();
         readService.readProduct(shop, "csv-files/clothes.txt");
         readService.readProduct(shop, "csv-files/phone.txt");
         readService.readProduct(shop, "csv-files/milk.txt");
@@ -23,16 +27,44 @@ public class Application {
         Scanner scanner = new Scanner(System.in);
 
         while(true){
-            System.out.println("Please type a commands: add, view, update, delete, exit");
+            System.out.println("Please type a commands: add, get, update, delete, exit");
             String line = scanner.nextLine();
             switch (line){
                 case "add": {
-                    addProduct(shop, productService, shopService, scanner);
+                    System.out.println("Please choose a prodcut type: clothes/food");
+                    String type = scanner.nextLine();
+                    switch (type){
+                        case "clothes": {
+                            addClothes(clothesService, scanner);
+                            break;
+                        }
+                        case "food" :{
+                            System.out.println("Please choose a food type: fruit/milk/meat");
+                            String foodType = scanner.nextLine();
+                            switch (foodType){
+                                case "fruit":{
+                                    addFruit(fruitService,scanner);
+                                    break;
+                                }
+
+                                case "milk" : {
+                                    addMilk(milkService, scanner);
+                                    break;
+                                }
+
+                                case "meat" : {
+                                    addMeat(meatService, scanner);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                     String message = "add";
                     auditService.writeAction(new Action(message), "audit/audit.txt");
                     break;
                 }
-                case "view": {
+                case "get": {
+                    /*
                     System.out.println("What do you want to view: ");
                     System.out.println("Fruit with the your input name -> write fruitname");
                     System.out.println("A list with all kind of fruits -> write fruitslist");
@@ -73,8 +105,90 @@ public class Application {
                     }
 
                     break;
+
+                     */
+                    System.out.println("Please give a type of product: clothes/milk/meat/fruit");
+                    String product_type = scanner.nextLine();
+                    switch (product_type) {
+                        case "clothes" : {
+                            System.out.println("Please give the clothes-id: ");
+                            Optional<Clothes> clothes = clothesService.getClothesById(Long.valueOf(scanner.nextLine()));
+                            if(clothes.isPresent()) {
+                                System.out.println(clothes.get());
+                            }
+                            break;
+                        }
+                        case "fruit" : {
+                            System.out.println("Please give the fruit-id: ");
+                            Optional<Fruit> fruit = fruitService.getFruitById(Long.valueOf(scanner.nextLine()));
+                            if(fruit.isPresent()){
+                                System.out.println(fruit.get());
+                            }
+                            break;
+                        }
+                        case "meat" : {
+                            System.out.println("Please give the meat-id: ");
+                            Optional<Meat> meat = meatService.getMeatById(Long.valueOf(scanner.nextLine()));
+                            if(meat.isPresent()) {
+                                System.out.println(meat.get());
+                            }
+                            break;
+                        }
+                        case "milk" : {
+                            System.out.println("Please give the milk-id: ");
+                            Optional<Milk> milk = milkService.getMilkById(Long.valueOf(scanner.nextLine()));
+                            if(milk.isPresent()) {
+                                System.out.println(milk.get());
+                            }
+                            break;
+                        }
+
+                    }
+                    break;
+
                 }
                 case "update": {
+                    System.out.println("Apply a update to clothes price -> write updateclothes");
+                    System.out.println("Apply a update to fruit stock -> write updatefruit");
+                    System.out.println("Apply a update to meat expiration -> write updatemeat");
+                    System.out.println("Apply a update to milk special edition -> write updatemilk");
+                    String input = scanner.nextLine();
+                    switch (input) {
+                        case "updateclothes": {
+                            System.out.println("Write the id-clothes");
+                            long idClothes = Long.valueOf(scanner.nextLine());
+                            System.out.println("Write a new price");
+                            double newPrice = Double.valueOf(scanner.nextLine());
+                            clothesService.updatePriceClothes(idClothes, newPrice);
+                            break;
+                        }
+                        case "updatefruit": {
+                            System.out.println("Write the id-fruit: ");
+                            long idFruit = Long.valueOf(scanner.nextLine());
+                            System.out.println("Write the new stock: ");
+                            int newStock = Integer.valueOf(scanner.nextLine());
+                            fruitService.updateFruitStock(idFruit, newStock);
+                            break;
+                        }
+                        case "updatemeat" : {
+                            System.out.println("Write the id-meat: ");
+                            long idMeat = Long.valueOf(scanner.nextLine());
+                            System.out.println("Write the new expiration: ");
+                            int days = Integer.valueOf(scanner.nextLine());
+                            meatService.updateMeatExpiration(idMeat, days);
+                            break;
+                        }
+                        case "updatemilk" : {
+                            System.out.println("Write the id-milk: ");
+                            long idMilk = Long.valueOf(scanner.nextLine());
+                            System.out.println("Is this milk a special edition? ");
+                            boolean edition = Boolean.valueOf(scanner.nextLine());
+                            milkService.updateMilkEdition(idMilk, edition);
+                            break;
+                        }
+
+                    }
+                    /*
                     System.out.println("Apply a discount to all of the products -> write discountall");
                     System.out.println("Apply a discount to winter clothes -> write winterdiscount");
                     System.out.println("Apply a discount to products which daysToExpiration < 5 -> write expirationdiscount");
@@ -109,15 +223,42 @@ public class Application {
                         default:
                             System.out.println("Invalid command");
                     }
+                     */
                     break;
                 }
                 case "delete":{
+                    System.out.println("I will delete all products with stocks 0");
+                    System.out.println("From which category do you want to delete the products with stocks 0?");
+                    System.out.println("clothes/milk/meat/fruit");
+                    String type = scanner.nextLine();
+                    switch (type){
+                        case "clothes": {
+                            clothesService.deleteClothes();
+                            break;
+                        }
+                        case "milk": {
+                            milkService.deleteMilk();
+                            break;
+                        }
+                        case "meat": {
+                            meatService.deleteMeat();
+                            break;
+                        }
+                        case "fruit" : {
+                            fruitService.deleteFruit();
+                            break;
+                        }
+                    }
+                    break;
+                    /*
                     System.out.println("Which element do you want to remove? ");
                     int number = Integer.valueOf(scanner.nextLine());
                     shopService.deleteProduct(shop, number);
                     String message = "delete product";
                     auditService.writeAction(new Action(message), "audit/audit.txt");
                     break;
+
+                     */
                 }
                 case "exit": {
                     String message = "exit";
@@ -184,6 +325,75 @@ public class Application {
         }
     }
 
+    private static void addClothes(ClothesService clothesService, Scanner scanner){
+        AuditService auditService = new AuditService();
+        WriteService writeService = new WriteService();
+        System.out.println("Please specify name/price/stock/brand/season");
+        try {
+            Product product = clothesService.buildClothes(scanner.nextLine());
+            clothesService.addClothes((Clothes) product);
+            writeService.writeProduct(product, "csv-files/clothes.txt");
+            String message = "added clothes";
+            auditService.writeAction(new Action(message), "audit/audit.txt");
+        } catch (NumberFormatException e){
+            System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough inputs for this product");
+        }
+    }
+
+    private static void addMilk(MilkService milkService, Scanner scanner){
+        AuditService auditService = new AuditService();
+        WriteService writeService = new WriteService();
+        System.out.println("Please specify name/price/stock/barccode/special_edition/brand/days to expiration/volume");
+        try {
+            Product product = milkService.buildMilk(scanner.nextLine());
+            milkService.addMilk((Milk) product);
+            writeService.writeProduct(product, "csv-files/milk.txt");
+            String message = "added milk";
+            auditService.writeAction(new Action(message), "audit/audit.txt");
+        } catch (NumberFormatException e){
+            System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough inputs for this product");
+        }
+    }
+
+    private static void addFruit(FruitService fruitService, Scanner scanner){
+        AuditService auditService = new AuditService();
+        WriteService writeService = new WriteService();
+        System.out.println("Please specify name/price/stock/barccode/special_edition/brand/ripe");
+        try{
+            Product product = fruitService.buildFruit(scanner.nextLine());
+            fruitService.addFruit((Fruit) product);
+            writeService.writeProduct(product, "csv-files/fruit.txt");
+            String message = "added fruits";
+            auditService.writeAction(new Action(message), "audit/audit.txt");
+        } catch (NumberFormatException e){
+            System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough inputs for this product");
+        }
+    }
+
+    private static void addMeat(MeatService meatService, Scanner scanner) {
+        AuditService auditService = new AuditService();
+        WriteService writeService = new WriteService();
+        System.out.println("Please specify name/price/stock/barccode/special_edition/brand/days to expiration/weight");
+        try {
+            Product product = meatService.buildMeat(scanner.nextLine());
+            meatService.addMeat((Meat) product);
+            writeService.writeProduct(product, "csv-files/meat.txt");
+            String message = "added meat";
+            auditService.writeAction(new Action(message), "audit/audit.txt");
+        } catch (NumberFormatException e){
+            System.out.println("Your inputs are invalid. The product wasn't added to the shop!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough inputs for this product");
+        }
+    }
+
+    /*
     private static void addProduct(Shop shop, ProductService productService, ShopService shopService, Scanner scanner) {
         AuditService auditService = new AuditService();
         WriteService writeService = new WriteService();
@@ -193,8 +403,8 @@ public class Application {
             case "clothes" :{
                 System.out.println("Please specify name/price/stock/brand/season");
                 try {
-                    Product product = productService.buildClothes(scanner.nextLine());
-                    shopService.addProduct(shop, product);
+                    Product product = clothesService.buildClothes(scanner.nextLine());
+                    clothesService.addClothes((Clothes) product);
                     writeService.writeProduct(product, "csv-files/clothes.txt");
                     String message = "added clothes";
                     auditService.writeAction(new Action(message), "audit/audit.txt");
@@ -275,6 +485,6 @@ public class Application {
             }
 
         }
-    }
+    }*/
 
 }

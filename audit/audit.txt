@@ -16,3 +16,51 @@ Write 'view summer clothes' command at 2021/04/26 19:51:58
 Write 'view all fruits' command at 2021/04/26 19:52:06
 Write 'view fruits name' command at 2021/04/26 19:52:19
 Write 'exit' command at 2021/04/26 19:52:21
+Write 'added clothes' command at 2021/05/25 10:56:21
+Write 'add' command at 2021/05/25 10:56:21
+Write 'exit' command at 2021/05/25 11:10:23
+Write 'added clothes' command at 2021/05/25 11:11:26
+Write 'add' command at 2021/05/25 11:11:26
+Write 'exit' command at 2021/05/25 11:11:27
+Write 'added clothes' command at 2021/05/25 11:23:17
+Write 'add' command at 2021/05/25 11:23:17
+Write 'exit' command at 2021/05/25 11:23:19
+Write 'added fruits' command at 2021/05/25 11:55:30
+Write 'add' command at 2021/05/25 11:55:30
+Write 'added milk' command at 2021/05/25 11:56:00
+Write 'add' command at 2021/05/25 11:56:00
+Write 'added meat' command at 2021/05/25 11:56:42
+Write 'add' command at 2021/05/25 11:56:42
+Write 'exit' command at 2021/05/25 11:56:44
+Write 'added milk' command at 2021/05/25 11:59:04
+Write 'add' command at 2021/05/25 11:59:04
+Write 'added milk' command at 2021/05/25 12:00:22
+Write 'add' command at 2021/05/25 12:00:22
+Write 'added meat' command at 2021/05/25 12:00:48
+Write 'add' command at 2021/05/25 12:00:48
+Write 'added fruits' command at 2021/05/25 12:01:08
+Write 'add' command at 2021/05/25 12:01:08
+Write 'added fruits' command at 2021/05/25 12:03:44
+Write 'add' command at 2021/05/25 12:03:44
+Write 'exit' command at 2021/05/25 12:03:45
+Write 'exit' command at 2021/05/25 12:35:58
+Write 'exit' command at 2021/05/25 13:25:28
+Write 'exit' command at 2021/05/25 13:25:53
+Write 'exit' command at 2021/05/25 13:36:06
+Write 'added clothes' command at 2021/05/25 13:47:14
+Write 'add' command at 2021/05/25 13:47:14
+Write 'added fruits' command at 2021/05/25 13:47:40
+Write 'add' command at 2021/05/25 13:47:40
+Write 'added milk' command at 2021/05/25 13:48:00
+Write 'add' command at 2021/05/25 13:48:00
+Write 'added meat' command at 2021/05/25 13:49:14
+Write 'add' command at 2021/05/25 13:49:14
+Write 'exit' command at 2021/05/25 13:49:16
+Write 'exit' command at 2021/05/25 13:50:05
+Write 'added clothes' command at 2021/05/25 13:51:18
+Write 'add' command at 2021/05/25 13:51:18
+Write 'add' command at 2021/05/25 13:51:44
+Write 'added clothes' command at 2021/05/25 13:52:02
+Write 'add' command at 2021/05/25 13:52:02
+Write 'exit' command at 2021/05/25 13:52:04
+Write 'exit' command at 2021/05/25 13:52:25

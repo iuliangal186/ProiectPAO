@@ -1,1 +1,5 @@
 43,banana,1.0,242,4324222,false,Dole,true
+10,banana,10.0,10,100000,false,Dole,false
+24,banana,1.0,54,4324234,true,Dole,true
+99,banana,2.0,2,435343,false,Dole,false
+15,test,100.0,0,0,false,test,false

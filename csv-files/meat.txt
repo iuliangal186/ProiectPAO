@@ -1,1 +1,4 @@
 58,chicken,4.0,12,24322,true,Marcel,20,4.0
+2,pui,12.0,3,45343532,false,Fragedo,7,2.0
+4,pui,22.0,5,3423423,true,Fragedo,21,1.0
+3,test,100.0,0,100,false,test,4,2.0

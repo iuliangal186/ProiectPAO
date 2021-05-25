@@ -4,7 +4,12 @@ import model.*;
 
 import java.util.Random;
 
+import repository.ClothesRepository;
+
 public class ProductService {
+    private ClothesRepository clothesRepository;
+    public ProductService() {this.clothesRepository = new ClothesRepository(); }
+
     public static Product buildClothes(String productDetails){
         String[] attr = productDetails.split("/");
         String name = attr[0];
@@ -14,6 +19,8 @@ public class ProductService {
         String season = attr[4];
         return new Clothes(new Random().nextInt(100), name, price, stock, brand, season);
     }
+    public void addClothes(Clothes clothes) {clothesRepository.addClothes(clothes); }
+
 
     public static Product buildPhone(String productDetails){
         String[] attr = productDetails.split("/");
